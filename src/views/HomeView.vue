@@ -3,7 +3,7 @@
     <div class="container">
       <div class="top">
         <h1>
-          Notifications <span>{{ notis.length }}</span>
+          Notifications <span>{{}}</span>
         </h1>
         <button class="readall-btn" @click="readAll()">
           Mark all as read
@@ -13,7 +13,7 @@
         <div
           class="notification"
           v-for="noti in notis"
-          :key="notis.name"
+          :key="noti.name"
           :class="{ unread: !noti.messageRead }"
         >
           <div class="content">
@@ -30,6 +30,7 @@
                     {{ noti.event }}
                   </p>
                   <p v-if="noti.messageRead === false" class="bullet">•</p>
+                  <p v-else="noti.messageRead === true" class="bullet bullet-hidden">•</p>
                 </div>
                 <p class="time">{{ noti.time }}</p>
                 <div class="private-message" v-if="noti.privateMessage">
@@ -125,9 +126,24 @@ export default {
   },
   methods: {
     readAll() {
-      this.notis[0].messageRead = true
-    }
+      for (let i=0; i <= this.notis.length; i++){
+        this.notis[i].messageRead = true;
+      }
+    },
+    unreadMessages() {
+      for (let i = 0; i <= this.notis.length; i++){
+        if (this.notis.messageRead = false) { 
+          return true;
+        }
+        return false;
+      }
+    },
+    
+  },
+   mounted() {
+     console.log()
   }
+  
 };
 </script>
 <style>
@@ -152,7 +168,7 @@ section {
   padding-inline: 2rem;
   padding-top: 2rem;
   box-shadow: 0px 0px 30px 1px rgba(0, 0, 0, 0.068);
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 }
 .top {
   display: flex;
@@ -200,6 +216,8 @@ color: var(--blue);
   color: var(--gblue);
   padding: 1rem;
   border-radius: 10px;
+  transition: 1s ease all;
+ 
 }
 .content {
   display: flex;
@@ -213,6 +231,7 @@ color: var(--blue);
 }
 .alert {
   width: 100%;
+  
 }
 p {
   display: inline;
@@ -229,6 +248,7 @@ p {
 .event {
   color: var(--dgblue);
   font-weight: 650;
+   margin-right: 0.3rem;
 }
 .profilepic {
   width: 50px;
@@ -249,7 +269,9 @@ p {
   color: var(--red);
   font-size: 1.5rem;
   vertical-align: start;
-  padding-left: 0.3rem;
+}
+.bullet-hidden{
+  visibility: hidden !important;
 }
 
 .name:hover,
@@ -257,13 +279,16 @@ p {
   color: var(--blue);
 }
 .private-message {
-  padding: 1rem;
+  padding: .8rem;
   border: 1px solid var(--lgblue2);
   font-weight: 500;
   border-radius: 6px;
   color: var(--dgblue);
+  margin-top: .6rem;
+  transition: all .1s ease-in-out;
 }
 .private-message:hover {
   background: var(--lgblue2);
 }
+
 </style>
