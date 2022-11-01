@@ -5,7 +5,9 @@
         <h1>
           Notifications <span>{{ notis.length }}</span>
         </h1>
-        <button class="readall-btn">Mark all as read</button>
+        <button class="readall-btn" @click="readAll()">
+          Mark all as read
+        </button>
       </div>
       <div class="message-wrapper">
         <div
@@ -17,21 +19,25 @@
           <div class="content">
             <div class="row">
               <img :src="noti.profilePic" alt="" class="profilepic" />
-
-              <div class="alert">
-                <p class="name">{{ noti.fullName }}</p>
-                <p class="action">{{ noti.userAction }}</p>
-                <p class="event" :class="{ blue: noti.event === 'Chess Club' }">
-                  {{ noti.event }}
-                </p>
+              <div class="time-container">
+                <div class="alert">
+                  <p class="name">{{ noti.fullName }}</p>
+                  <p class="action">{{ noti.userAction }}</p>
+                  <p
+                    class="event"
+                    :class="{ blue: noti.event === 'Chess Club' }"
+                  >
+                    {{ noti.event }}
+                  </p>
+                  <p v-if="noti.messageRead === false" class="bullet">•</p>
+                </div>
+                <p class="time">{{ noti.time }}</p>
+                <div class="private-message" v-if="noti.privateMessage">
+                  <p>{{ noti.privateMessage }}</p>
+                </div>
               </div>
             </div>
- <p class="time">{{ noti.time }}</p>
-          <div class="private-message">
-            <p>{{ noti.privateMessage }}</p>
           </div>
-          </div>
-         
         </div>
       </div>
     </div>
@@ -48,7 +54,7 @@ export default {
           profilePic:
             "https://raw.githubusercontent.com/0xjoshva/notification-page/main/src/assets/avatar-mark-webber.webp",
           userAction: "reacted to your recent post ",
-          event: "My first tournament today",
+          event: "My first tournament today!",
           time: "1m ago",
           messageRead: false,
           privateMessage: "",
@@ -82,7 +88,7 @@ export default {
           time: "5 days ago",
           messageRead: true,
           privateMessage:
-            "Hello, thanks for setting up the Chess Club. I've been a member for a few weeks now ",
+            "Hello, thanks for setting up the Chess Club. I've been a member for a few weeks now and I'm already having lots of fun and improving my game. ",
         },
         {
           fullName: "Kimberly Smith ",
@@ -117,6 +123,11 @@ export default {
       ],
     };
   },
+  methods: {
+    readAll() {
+      this.notis[0].messageRead = true
+    }
+  }
 };
 </script>
 <style>
@@ -141,6 +152,7 @@ section {
   padding-inline: 2rem;
   padding-top: 2rem;
   box-shadow: 0px 0px 30px 1px rgba(0, 0, 0, 0.068);
+  padding-bottom: 2rem;
 }
 .top {
   display: flex;
@@ -172,6 +184,9 @@ section {
   outline: none;
   font-weight: 500;
 }
+.readall-btn:hover{
+color: var(--blue);
+}
 .message-wrapper {
   display: flex;
   flex-direction: column;
@@ -194,13 +209,14 @@ section {
 .row {
   display: flex;
   flex-direction: row;
+  column-gap: 1rem;
 }
 .alert {
-width:100%;
+  width: 100%;
 }
-p{
-    display:inline;
- word-wrap: break-word;
+p {
+  display: inline;
+  word-wrap: break-word;
 }
 .name {
   color: var(--vdblue);
@@ -224,5 +240,30 @@ p{
 }
 .blue {
   color: var(--blue) !important;
+}
+.time-container {
+  display: flex;
+  flex-direction: column;
+}
+.bullet {
+  color: var(--red);
+  font-size: 1.5rem;
+  vertical-align: start;
+  padding-left: 0.3rem;
+}
+
+.name:hover,
+.event:hover {
+  color: var(--blue);
+}
+.private-message {
+  padding: 1rem;
+  border: 1px solid var(--lgblue2);
+  font-weight: 500;
+  border-radius: 6px;
+  color: var(--dgblue);
+}
+.private-message:hover {
+  background: var(--lgblue2);
 }
 </style>
