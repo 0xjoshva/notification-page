@@ -2,9 +2,7 @@
   <section>
     <div class="container">
       <div class="top">
-        <h1>
-          Notifications <span id="count" ref="counter"></span>
-        </h1>
+        <h1>Notifications <span id="count" ref="counter"></span></h1>
         <button class="readall-btn" @click="readAll()">Mark all as read</button>
       </div>
       <div class="message-wrapper">
@@ -13,7 +11,6 @@
           v-for="noti in notis"
           :key="noti.name"
           :class="{ unread: !noti.messageRead }"
-          
         >
           <div class="content">
             <div class="row">
@@ -134,10 +131,16 @@ export default {
         this.notis[i].messageRead = true;
       }
     },
+    unread() {
+      for(let i = 0; i <= this.notis.length; i++) {
+       if (this.notis[i].messageRead === false) {
+         return this.notis.length;
+        }
+      }
+    },
   },
   mounted() {
-    this.$refs.counter.innerHTML = document.getElementsByClassName("unread").length;
-   
+    console.log(this.unread());
   },
 };
 </script>
