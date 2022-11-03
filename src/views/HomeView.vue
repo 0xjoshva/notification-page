@@ -3,11 +3,9 @@
     <div class="container">
       <div class="top">
         <h1>
-          Notifications <span>{{}}</span>
+          Notifications <span id="count" ref="counter"></span>
         </h1>
-        <button class="readall-btn" @click="readAll()">
-          Mark all as read
-        </button>
+        <button class="readall-btn" @click="readAll()">Mark all as read</button>
       </div>
       <div class="message-wrapper">
         <div
@@ -15,6 +13,7 @@
           v-for="noti in notis"
           :key="noti.name"
           :class="{ unread: !noti.messageRead }"
+          
         >
           <div class="content">
             <div class="row">
@@ -30,7 +29,12 @@
                     {{ noti.event }}
                   </p>
                   <p v-if="noti.messageRead === false" class="bullet">•</p>
-                  <p v-else="noti.messageRead === true" class="bullet bullet-hidden">•</p>
+                  <p
+                    v-else="noti.messageRead === true"
+                    class="bullet bullet-hidden"
+                  >
+                    •
+                  </p>
                 </div>
                 <p class="time">{{ noti.time }}</p>
                 <div class="private-message" v-if="noti.privateMessage">
@@ -126,24 +130,15 @@ export default {
   },
   methods: {
     readAll() {
-      for (let i=0; i <= this.notis.length; i++){
+      for (let i = 0; i <= this.notis.length; i++) {
         this.notis[i].messageRead = true;
       }
     },
-    unreadMessages() {
-      for (let i = 0; i <= this.notis.length; i++){
-        if (this.notis.messageRead = false) { 
-          return true;
-        }
-        return false;
-      }
-    },
-    
   },
-   mounted() {
-     console.log()
-  }
-  
+  mounted() {
+    this.$refs.counter.innerHTML = document.getElementsByClassName("unread").length;
+   
+  },
 };
 </script>
 <style>
@@ -200,8 +195,8 @@ section {
   outline: none;
   font-weight: 500;
 }
-.readall-btn:hover{
-color: var(--blue);
+.readall-btn:hover {
+  color: var(--blue);
 }
 .message-wrapper {
   display: flex;
@@ -217,7 +212,6 @@ color: var(--blue);
   padding: 1rem;
   border-radius: 10px;
   transition: 1s ease all;
- 
 }
 .content {
   display: flex;
@@ -231,7 +225,6 @@ color: var(--blue);
 }
 .alert {
   width: 100%;
-  
 }
 p {
   display: inline;
@@ -248,7 +241,7 @@ p {
 .event {
   color: var(--dgblue);
   font-weight: 650;
-   margin-right: 0.3rem;
+  margin-right: 0.3rem;
 }
 .profilepic {
   width: 50px;
@@ -270,7 +263,7 @@ p {
   font-size: 1.5rem;
   vertical-align: start;
 }
-.bullet-hidden{
+.bullet-hidden {
   visibility: hidden !important;
 }
 
@@ -279,16 +272,15 @@ p {
   color: var(--blue);
 }
 .private-message {
-  padding: .8rem;
+  padding: 0.8rem;
   border: 1px solid var(--lgblue2);
   font-weight: 500;
   border-radius: 6px;
   color: var(--dgblue);
-  margin-top: .6rem;
-  transition: all .1s ease-in-out;
+  margin-top: 0.6rem;
+  transition: all 0.1s ease-in-out;
 }
 .private-message:hover {
   background: var(--lgblue2);
 }
-
 </style>
